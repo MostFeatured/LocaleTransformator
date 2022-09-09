@@ -1,6 +1,5 @@
 {
   "dependencies": {
-    "@mostfeatured/dbi": "^0.0.27",
     "fs": "^0.0.1-security",
     "yaml": "^2.1.1"
   },
@@ -9,7 +8,9 @@
   "description": "Locale Class Into A Yaml Or Reverse",
   "version": "0.0.1",
   "main": "index.js",
-  "devDependencies": {},
+  "devDependencies": {
+    "@mostfeatured/dbi": "^0.0.28"
+  },
   "scripts": {},
   "repository": {
     "type": "git",
