@@ -1,0 +1,28 @@
+{
+  "dependencies": {
+    "@mostfeatured/dbi": "^0.0.27",
+    "fs": "^0.0.1-security",
+    "yaml": "^2.1.1"
+  },
+  "types": "./index.d.ts",
+  "name": "@mostfeatured/locale-yamler",
+  "description": "Locale Class Into A Yaml Or Reverse",
+  "version": "0.0.1",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MostFeatured/LocaleTransformator.git"
+  },
+  "author": "erdemgoksel",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MostFeatured/LocaleTransformator/issues"
+  },
+  "homepage": "https://github.com/MostFeatured/LocaleTransformator#readme",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  }
+}
