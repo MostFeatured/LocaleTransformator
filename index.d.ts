@@ -18,4 +18,4 @@ export function yamlAsLocale(yamlPath: string, localePath?: string): TDBILocaleC
 
 export async function packInteractionLocalesAsYamls(interactionLocales: import("discord.js").Collection<string, import("@mostfeatured/dbi/dist/types/InteractionLocale").DBIInteractionLocale>, folder: string): Promise<void>;
 
-export async function importFromInteractionYamlPack(folder: string, dbi: import("@mostfeatured/dbi/dist/DBI").DBI): Map<string, import("@mostfeatured/dbi/dist/types/InteractionLocale").DBIInteractionLocale>
+export async function importFromInteractionYamlPack(folder: string, dbi?: import("@mostfeatured/dbi/dist/DBI").DBI): Map<string, import("@mostfeatured/dbi/dist/types/InteractionLocale").DBIInteractionLocale>
