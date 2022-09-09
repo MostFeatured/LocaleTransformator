@@ -6,7 +6,7 @@ Locale Class Into A Yaml File Or Reverse
 
 ```js
 const { createDBI } = require("@mostfeatured/dbi");
-const { localeToYamlFile, yamlFileToLocaleFile } = require("@mostfeatured/locale-yamler");
+const { localeToYamlFile, yamlFileToLocaleFile, yamlAsLocale } = require("@mostfeatured/locale-yamler");
 
 const dbi = createDBI("dbi_namespace", {
   discord: {
@@ -34,15 +34,15 @@ dbi.register(({ Locale }) => {
 
   dbi.register(({ Locale }) => {
 
-    Locale(yamlFileToLocaleFile("./en.yaml"));
+    Locale(yamlAsLocale("./en.yaml"));
 
   });
 
   await dbi.load();
 
-  localeToYamlFile(dbi.data.locales.get("tr"), "./tr.yaml");
+  await localeToYamlFile(dbi.data.locales.get("tr"), "./tr.yaml");
 
-  yamlFileToLocaleFile("./tr.yaml", "./tr.js");
+  await yamlFileToLocaleFile("./tr.yaml", "./tr.js");
 
 })();
 ```

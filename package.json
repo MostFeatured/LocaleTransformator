@@ -6,7 +6,7 @@
   "types": "./index.d.ts",
   "name": "@mostfeatured/locale-yamler",
   "description": "Locale Class Into A Yaml Or Reverse",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "index.js",
   "devDependencies": {
     "@mostfeatured/dbi": "^0.0.28"
