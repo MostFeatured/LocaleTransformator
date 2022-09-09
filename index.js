@@ -24,9 +24,9 @@ function recursiveCallAndAssign(object, assignObject = {}) {
  * @param {string} path
  * @returns {void}
  */
-module.exports.localeToYamlFile = async function LocaleToYamlFile(locale, path) {
+module.exports.localeToYamlFile = async function localeToYamlFile(locale, path) {
   const json = { name: locale.name, data: recursiveCallAndAssign(locale.data) };
-  fs.promises.writeFile(path, stringify(json))
+  await fs.promises.writeFile(path, stringify(json))
 }
 
 /**
@@ -34,11 +34,16 @@ module.exports.localeToYamlFile = async function LocaleToYamlFile(locale, path) 
  * @param {string?} localePath path to write "TDBILocaleConstructor as json" from yaml file
  * @returns {import("@mostfeatured/dbi/dist/types/Locale").TDBILocaleConstructor}
  */
-module.exports.yamlFileToLocaleFile = async function YamlFileToLocaleFile(yamlPath, localePath) {
+module.exports.yamlFileToLocaleFile = async function yamlFileToLocaleFile(yamlPath, localePath) {
   const yamlAsJson = parse(await fs.promises.readFile(yamlPath, "utf-8"))
-  if (localePath) fs.promises.writeFile(localePath, 
-  localePath.endsWith(".json") ? 
-    JSON.stringify(yamlAsJson, null, 2) : 
-    `/** @type {import("@mostfeatured/dbi/dist/types/Locale").TDBILocaleConstructor} */\nmodule.exports = ${JSON.stringify(yamlAsJson, null, 2).replace(/"([a-zA-ZğüşiöçĞÜŞİÖÇıİ_][a-zA-Z0-9ğüşiöçĞÜŞİÖÇıİ_]*)"((: {)|(: "([^"]|\\")*[^\\]"))/g, "$1$2")}`);
+  if (localePath) await fs.promises.writeFile(localePath,
+    localePath.endsWith(".json") ?
+      JSON.stringify(yamlAsJson, null, 2) :
+      `/** @type {import("@mostfeatured/dbi/dist/types/Locale").TDBILocaleConstructor} */\nmodule.exports = ${JSON.stringify(yamlAsJson, null, 2).replace(/"([a-zA-ZğüşiöçĞÜŞİÖÇıİ_][a-zA-Z0-9ğüşiöçĞÜŞİÖÇıİ_]*)"((: {)|(: "([^"]|\\")*[^\\]"))/g, "$1$2")}`
+  );
   return yamlAsJson;
+}
+
+module.exports.yamlAsLocale = function yamlAsLocale(yamlPath) {
+  return parse(fs.readFileSync(yamlPath, "utf-8"))
 }
