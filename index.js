@@ -1,5 +1,6 @@
 const { stringify, parse } = require("yaml")
 const fs = require("fs");
+const path = require("path");
 /**
  * @param {{[key: string]: Function}} object 
  * @param {{}} assignObject 
@@ -20,7 +21,7 @@ function recursiveCallAndAssign(object, assignObject = {}) {
 }
 
 /**
- * @param {import("@mostfeatured/dbi/dist/types/Locale").DBILocale} locale 
+ * @param {import("@mostfeatured/dbi/dist/types/Locale").DBILocale |} locale 
  * @param {string} path
  * @returns {void}
  */
@@ -35,7 +36,8 @@ module.exports.localeToYamlFile = async function localeToYamlFile(locale, path) 
  * @returns {import("@mostfeatured/dbi/dist/types/Locale").TDBILocaleConstructor}
  */
 module.exports.yamlFileToLocaleFile = async function yamlFileToLocaleFile(yamlPath, localePath) {
-  const yamlAsJson = parse(await fs.promises.readFile(yamlPath, "utf-8"))
+  const yamlAsJson = parse(await fs.promises.readFile(yamlPath, "utf-8"));
+
   if (localePath) await fs.promises.writeFile(localePath,
     localePath.endsWith(".json") ?
       JSON.stringify(yamlAsJson, null, 2) :
@@ -46,4 +48,43 @@ module.exports.yamlFileToLocaleFile = async function yamlFileToLocaleFile(yamlPa
 
 module.exports.yamlAsLocale = function yamlAsLocale(yamlPath) {
   return parse(fs.readFileSync(yamlPath, "utf-8"))
+}
+
+/**
+ * @param {import("discord.js").Collection<string, import("@mostfeatured/dbi/dist/types/InteractionLocale").DBIInteractionLocale>} interactionLocales 
+ * @param {string} folder 
+ */
+module.exports.packInteractionLocalesAsYamls = async function packInteractionLocalesAsYamls(interactionLocales, folder) {
+  const yamlsAsJsons = {};
+  interactionLocales.forEach(interactionLocale => {
+    for (let lang in interactionLocale.data) {
+      if (!yamlsAsJsons[lang]) yamlsAsJsons[lang] = {};
+      yamlsAsJsons[lang][interactionLocale.name] = interactionLocale.data[lang]
+    }
+  });
+  for (const lang in yamlsAsJsons) {
+    await fs.promises.writeFile(path.resolve(folder, `./${lang}.yaml`), stringify({ lang, data: yamlsAsJsons[lang] }))
+  }
+}
+/**
+ * @param {import("@mostfeatured/dbi/dist/DBI").DBI} dbi 
+ * @param {string} folder 
+ */
+module.exports.importFromInteractionYamlPack = async function importFromInteractionYamlPack(folder, dbi) {
+  const interactionLocales = new Map();
+  const paths = (await fs.promises.readdir(path.resolve(process.cwd(), folder)))
+  for (file of paths) {
+    const filePath = path.resolve(process.cwd(), folder, file);
+    const langJson = parse((await fs.promises.readFile(filePath), "utf-8"));
+    for (const interactionName in langJson.data) {
+      let interactionLocale = interactionLocales.get(interactionName);
+      if (interactionLocale) interactionLocale.data[langJson.lang] = langJson.data[interactionName];
+      else interactionLocales.set(interactionName, { name: interactionName, data: { [langJson.lang]: langJson.data[interactionName] } });
+    }
+    dbi?.register(({ InteractionLocale }) => {
+      interactionLocales.forEach((interactionLocale) => {
+        InteractionLocale(interactionLocale);
+      });
+    })
+  }
 }
