@@ -67,7 +67,7 @@ module.exports.packInteractionLocalesAsYamls = async function packInteractionLoc
   }
 }
 /**
- * @param {import("@mostfeatured/dbi/dist/DBI").DBI} dbi 
+ * @param {import("@mostfeatured/dbi/dist/DBI").DBI?} dbi
  * @param {string} folder 
  */
 module.exports.importFromInteractionYamlPack = function importFromInteractionYamlPack(folder, dbi) {

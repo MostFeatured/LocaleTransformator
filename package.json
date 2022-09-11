@@ -8,7 +8,7 @@
   "version": "0.0.7",
   "main": "index.js",
   "devDependencies": {
-    "@mostfeatured/dbi": "^0.0.28"
+    "@mostfeatured/dbi": "^0.0.29"
   },
   "scripts": {},
   "repository": {

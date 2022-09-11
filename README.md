@@ -34,7 +34,7 @@ dbi.register(({ Locale }) => {
   switch ("fromHere") {
 
     case "fromPack": {
-      await importFromInteractionYamlPack("./yamls", dbi);
+      importFromInteractionYamlPack("./yamls", dbi);
     };
 
     case "fromHere": {
