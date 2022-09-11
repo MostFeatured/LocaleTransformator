@@ -70,12 +70,12 @@ module.exports.packInteractionLocalesAsYamls = async function packInteractionLoc
  * @param {import("@mostfeatured/dbi/dist/DBI").DBI} dbi 
  * @param {string} folder 
  */
-module.exports.importFromInteractionYamlPack = async function importFromInteractionYamlPack(folder, dbi) {
+module.exports.importFromInteractionYamlPack = function importFromInteractionYamlPack(folder, dbi) {
   const interactionLocales = new Map();
-  const paths = (await fs.promises.readdir(path.resolve(process.cwd(), folder)))
+  const paths = (fs.readdirSync(path.resolve(process.cwd(), folder)))
   for (file of paths) {
     const filePath = path.resolve(process.cwd(), folder, file);
-    const langJson = parse((await fs.promises.readFile(filePath), "utf-8"));
+    const langJson = parse((fs.readFileSync(filePath), "utf-8"));
     for (const interactionName in langJson.data) {
       let interactionLocale = interactionLocales.get(interactionName);
       if (interactionLocale) interactionLocale.data[langJson.lang] = langJson.data[interactionName];
