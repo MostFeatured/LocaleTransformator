@@ -5,10 +5,10 @@
   "types": "./index.d.ts",
   "name": "@mostfeatured/locale-transformer",
   "description": "Locale Class Into A Yaml Or Reverse",
-  "version": "0.0.7",
+  "version": "0.0.9",
   "main": "index.js",
   "devDependencies": {
-    "@mostfeatured/dbi": "^0.0.29"
+    "@mostfeatured/dbi": "^0.0.40"
   },
   "scripts": {},
   "repository": {
